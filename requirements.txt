@@ -1,0 +1,7 @@
+# VeriProvider AI - Phase 1 Dependencies
+requests==2.32.3
+geopy==2.4.1
+duckduckgo-search==6.1.0
+phonenumbers==8.13.35
+numpy==1.26.4
+pandas==2.2.2
