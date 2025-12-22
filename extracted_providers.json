@@ -1,0 +1,13 @@
+[
+  {
+    "file": "C:\\Users\\manav\\OneDrive\\Desktop\\VeriProvider_AI\\input_images\\sample_doctor.jpg",
+    "data": {
+      "provider_name": "Sarah Connor, MD",
+      "npi_number": "1457890234",
+      "address_raw": "800 West Pico Blvd. Suite 101 Los Angeles. CA 90015",
+      "phone": "(213) 555-0199",
+      "website": "www.cyberdyneheart.com"
+    },
+    "status": "success"
+  }
+]

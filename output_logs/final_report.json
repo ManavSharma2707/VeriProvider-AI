@@ -1,0 +1,77 @@
+{
+  "source_document": "input_images/sample_doctor.jpg",
+  "vision_extraction": {
+    "provider_name": "NAPA VALLEY HOSPICE & ADULT DAY SERVICES",
+    "npi_number": "1023011178",
+    "address_raw": null,
+    "phone": null,
+    "website": null
+  },
+  "investigation_result": {
+    "npi_registry": {
+      "npi": "1023011178",
+      "first_name": "",
+      "last_name": "",
+      "organization_name": "COLLABRIA CARE",
+      "credential": "",
+      "address": "414 S JEFFERSON ST, NAPA, CA 94559",
+      "city": "NAPA",
+      "state": "CA",
+      "phone": "707-258-9080",
+      "specialty": "Hospice Care, Community Based"
+    },
+    "geo_verification": {
+      "lat": 38.2842793,
+      "lon": -122.2937586,
+      "osm_display_name": "414, South Jefferson Street, Imola, Napa, Napa County, California, 94559, United States",
+      "match_type": "EXACT",
+      "components": {
+        "street": "414 South Jefferson Street",
+        "city": "Napa",
+        "state": "California",
+        "zip": "94559"
+      }
+    },
+    "phone_verification": {
+      "valid": true,
+      "original": "707-258-9080",
+      "formatted_display": "(707) 258-9080",
+      "e164": "+17072589080",
+      "area_location": "Napa, CA",
+      "time_zones": [
+        "America/Los_Angeles"
+      ]
+    },
+    "web_presence": {
+      "official_site": "https://communityhealthnapavalley.org/",
+      "social_media": [],
+      "directories": [],
+      "other_mentions": [
+        "https://publichealth.networkofcare.org/solano/services/agency?pid=CollabriaCare_1_49_1",
+        "https://npiprofile.com/npi/1023011178",
+        "https://everloved.com/hospices/CA/napa/collabria-care-napa-ca-94559/",
+        "https://www.seniorresource.com/hospice_care/collabria-care/",
+        "https://hcai.ca.gov/facility/collabria-care/",
+        "https://business.napachamber.com/list/member/collabria-care-1688",
+        "https://www.medicarelist.com/hospice/collabria-care-napa-ca/",
+        "https://communityhealthnapavalley.org/overview/",
+        "https://www.chamberofcommerce.com/business-directory/california/napa/home-health-care-service/8031320-collabria-care"
+      ]
+    },
+    "name_mismatch_flag": false,
+    "audit_log": [
+      "Investigator: Starting investigation for NPI: 1023011178",
+      "Investigator: Querying CMS NPI Registry API...",
+      "Investigator: NPI record found for COLLABRIA CARE",
+      "Investigator: Verifying address '414 S JEFFERSON ST, NAPA, CA 94559'...",
+      "Investigator: Address verified. Match: EXACT",
+      "Investigator: Validating phone '707-258-9080'...",
+      "Investigator: Phone valid. Location: Napa, CA",
+      "Investigator: Initiating web presence search...",
+      "Investigator: Found Official Website: https://communityhealthnapavalley.org/",
+      "Investigator: Web search complete. Found 0 social profiles and 0 directories."
+    ],
+    "timestamp": "2025-12-23 00:26:04"
+  },
+  "status": "complete"
+}
