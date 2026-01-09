@@ -3,7 +3,7 @@ import requests
 import re
 import time
 
-def search_duckduckgo_html_fallback(query: str) -> list:
+def search_duckduckgo_html_fallback(query: str, num_results: int = 15) -> list:
     """
     Fallback: Scrapes DuckDuckGo HTML if Google fails.
     Returns a list of dicts: [{'url': '...', 'title': '...'}]
@@ -21,12 +21,11 @@ def search_duckduckgo_html_fallback(query: str) -> list:
         resp.raise_for_status()
         
         # Regex to extract links (class="result__a")
-        # <a class="result__a" href="URL">TITLE</a>
         pattern = r'class="result__a" href="([^"]+)">([^<]+)</a>'
         matches = re.findall(pattern, resp.text)
         
         results = []
-        for href, title in matches[:15]:
+        for href, title in matches[:num_results]:
             results.append({'url': href, 'title': title})
             
         return results
@@ -34,9 +33,69 @@ def search_duckduckgo_html_fallback(query: str) -> list:
         print(f"Fallback search failed: {e}")
         return []
 
+def _perform_web_search(query: str, num_results: int = 15) -> list:
+    """
+    Internal helper to perform search using Google, falling back to DDG.
+    Returns a normalized list of dicts {'url': ..., 'title': ...}
+    """
+    print(f"Performing web search for: {query}")
+    results = []
+
+    # Attempt 1: Google
+    try:
+        google_results = list(search(query, num_results=num_results, advanced=True))
+        if google_results:
+            # Normalize Google results to dicts
+            for res in google_results:
+                results.append({
+                    'url': res.url,
+                    'title': res.title if res.title else ""
+                })
+            return results
+        else:
+            print("Google returned 0 results. Switching to fallback.")
+    except Exception as e:
+        print(f"Google Search error: {e}")
+
+    # Attempt 2: DuckDuckGo Fallback
+    return search_duckduckgo_html_fallback(query, num_results)
+
+def find_provider_url(name: str, city: str, state: str) -> dict:
+    """
+    Orchestrates the search for a provider's digital footprint.
+    """
+    query = f"{name} {city} {state}" 
+    
+    # Use the shared search helper
+    raw_results = _perform_web_search(query, num_results=15)
+    
+    footprint = {
+        "official_site": None,
+        "social_media": [],
+        "directories": [],
+        "other_mentions": []
+    }
+
+    process_results(raw_results, footprint)
+    return footprint
+
+def verify_address_claim(claimed_name: str, claimed_address: str) -> list:
+    """
+    Searches specifically for the combination of name and address to find confirmation links.
+    Returns a list of URLs that mention both.
+    """
+    query = f"{claimed_name} {claimed_address}"
+    raw_results = _perform_web_search(query, num_results=5)
+    
+    links = []
+    for res in raw_results:
+        links.append(res['url'])
+        
+    return links
+
 def process_results(results, footprint):
     """
-    Categorizes a list of result objects/dicts into the footprint dictionary.
+    Categorizes a list of result dicts into the footprint dictionary.
     """
     # 1. Social Media Domains
     social_domains = [
@@ -58,21 +117,12 @@ def process_results(results, footprint):
         'system', 'group', 'dr', 'physician', 'surgery', 'official', 'home'
     ]
 
-    count = 0
     for res in results:
-        # Normalize input (Google returns objects, DDG fallback returns dicts)
-        if isinstance(res, dict):
-            url = res.get('url', '').lower()
-            title = res.get('title', '').lower()
-            raw_url = res.get('url')
-        else:
-            # Assumes googlesearch-python result object
-            url = res.url.lower()
-            title = res.title.lower() if res.title else ""
-            raw_url = res.url
+        url = res.get('url', '').lower()
+        title = res.get('title', '').lower()
+        raw_url = res.get('url')
 
         if not raw_url: continue
-        count += 1
 
         # --- Category A: Social Media ---
         if any(domain in url for domain in social_domains):
@@ -92,61 +142,13 @@ def process_results(results, footprint):
         
         # --- Category D: Everything Else ---
         footprint["other_mentions"].append(raw_url)
-    
-    return count
-
-def find_provider_url(name: str, city: str, state: str) -> dict:
-    """
-    Orchestrates the search: Google -> Fallback to DDG -> Return Categorized Footprint.
-    """
-    query = f"{name} {city} {state}" 
-    print(f"Searching for digital footprint: {query}")
-
-    footprint = {
-        "official_site": None,
-        "social_media": [],
-        "directories": [],
-        "other_mentions": []
-    }
-
-    # Attempt 1: Google
-    try:
-        # advanced=True is required to get titles
-        google_results = list(search(query, num_results=15, advanced=True))
-        
-        if google_results:
-            print(f"Google returned {len(google_results)} results.")
-            process_results(google_results, footprint)
-            return footprint
-        else:
-            print("Google returned 0 results. Switching to fallback.")
-
-    except Exception as e:
-        print(f"Google Search error: {e}")
-
-    # Attempt 2: DuckDuckGo HTML Fallback
-    # (Runs if Google fails or returns 0 results)
-    ddg_results = search_duckduckgo_html_fallback(query)
-    if ddg_results:
-        print(f"DuckDuckGo Fallback returned {len(ddg_results)} results.")
-        process_results(ddg_results, footprint)
-    
-    return footprint
 
 if __name__ == "__main__":
     # Test Block
-    test_name = "Providence Hospital"
-    test_city = "Mobile"
-    test_state = "AL"
+    print("--- Testing General Search ---")
+    fp = find_provider_url("Providence Hospital", "Mobile", "AL")
+    print(f"Found Official: {fp['official_site']}")
     
-    print(f"Running footprint search for {test_name}...")
-    result = find_provider_url(test_name, test_city, test_state)
-    
-    if result:
-        print("\n--- Digital Footprint Found ---")
-        print(f"Official Site: {result['official_site']}")
-        print(f"Social Media: {result['social_media']}")
-        print(f"Directories: {len(result['directories'])} found")
-        print(f"Other: {len(result['other_mentions'])}")
-    else:
-        print("No results found.")
+    print("\n--- Testing Address Claim Verification ---")
+    links = verify_address_claim("Providence Hospital", "6801 Airport Blvd")
+    print(f"Confirmation Links: {links}")

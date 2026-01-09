@@ -5,3 +5,4 @@ duckduckgo-search==6.1.0
 phonenumbers==8.13.35
 numpy==1.26.4
 pandas==2.2.2
+python-dotenv==1.0.0

@@ -3,9 +3,10 @@
   "vision_extraction": {
     "provider_name": "NAPA VALLEY HOSPICE & ADULT DAY SERVICES",
     "npi_number": "1023011178",
-    "address_raw": null,
+    "address_raw": "Collabria Care, 414 S Jefferson St, Napa",
     "phone": null,
-    "website": null
+    "website": null,
+    "npi_source": "inferred_by_search"
   },
   "investigation_result": {
     "npi_registry": {
@@ -42,36 +43,36 @@
         "America/Los_Angeles"
       ]
     },
+    "claimed_phone_verification": null,
     "web_presence": {
-      "official_site": "https://communityhealthnapavalley.org/",
+      "official_site": "https://communityhealthnapavalley.org/adult-day-health/",
       "social_media": [],
-      "directories": [],
+      "directories": [
+        "https://www.yelp.com/search?cflt=hospice&amp;find_loc=Napa%2C+CA"
+      ],
       "other_mentions": [
-        "https://publichealth.networkofcare.org/solano/services/agency?pid=CollabriaCare_1_49_1",
-        "https://npiprofile.com/npi/1023011178",
-        "https://everloved.com/hospices/CA/napa/collabria-care-napa-ca-94559/",
-        "https://www.seniorresource.com/hospice_care/collabria-care/",
-        "https://hcai.ca.gov/facility/collabria-care/",
-        "https://business.napachamber.com/list/member/collabria-care-1688",
-        "https://www.medicarelist.com/hospice/collabria-care-napa-ca/",
-        "https://communityhealthnapavalley.org/overview/",
-        "https://www.chamberofcommerce.com/business-directory/california/napa/home-health-care-service/8031320-collabria-care"
+        "https://npino.com/hospice/1023011178-napa-valley-hospice-%26-adult-day-services/",
+        "https://www.agingcare.com/local/napa-valley-hospice-adult-day-services-napa-hospice-ca",
+        "https://www.wellness.com/dir/2620243/hospice/ca/napa/napa-valley-hospice--adult-day-services",
+        "https://www.boomershub.com/home-care/california/napa/napa-valley-hospice-adult-day-services",
+        "https://foundation.providence.org/ca/napa",
+        "https://hospice.io/care/collabria-care-napa-ca/",
+        "https://communityhealthnapavalley.org/",
+        "https://local.yahoo.com/info-21462582-napa-valley-hospice-adult-dy-napa/"
       ]
     },
-    "name_mismatch_flag": false,
+    "address_confirmation_links": [],
     "audit_log": [
       "Investigator: Starting investigation for NPI: 1023011178",
       "Investigator: Querying CMS NPI Registry API...",
-      "Investigator: NPI record found for COLLABRIA CARE",
-      "Investigator: Verifying address '414 S JEFFERSON ST, NAPA, CA 94559'...",
-      "Investigator: Address verified. Match: EXACT",
-      "Investigator: Validating phone '707-258-9080'...",
-      "Investigator: Phone valid. Location: Napa, CA",
+      "Investigator: Successfully fetched NPI record for COLLABRIA CARE",
+      "Investigator: Verifying official address '414 S JEFFERSON ST, NAPA, CA 94559' via OpenStreetMap...",
+      "Investigator: Address verified. Match Type: EXACT",
+      "Investigator: Validating official phone '707-258-9080'...",
       "Investigator: Initiating web presence search...",
-      "Investigator: Found Official Website: https://communityhealthnapavalley.org/",
-      "Investigator: Web search complete. Found 0 social profiles and 0 directories."
-    ],
-    "timestamp": "2025-12-23 00:26:04"
+      "Investigator: Searching for digital footprint using: 'NAPA VALLEY HOSPICE & ADULT DAY SERVICES NAPA CA'",
+      "Investigator: Found Official URL: https://communityhealthnapavalley.org/adult-day-health/"
+    ]
   },
   "status": "complete"
 }
